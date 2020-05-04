@@ -5,8 +5,8 @@ class CameraConfiguration(object):
         this.mCoordinateConverter = coordinateConverter
         pass
     
-    def ConvertToGlobalCoordinates(this, imageSize, imagePoint):
-        return this.mCoordinateConverter.ConvertCoordinates(imageSize, imagePoint)
+    def ConvertToGlobalCoordinates(this, imagePoint):
+        return this.mCoordinateConverter.ConvertCoordinates(imagePoint)
 
     @property
     def CoordinateConverter(this):

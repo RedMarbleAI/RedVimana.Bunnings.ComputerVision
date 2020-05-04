@@ -6,13 +6,14 @@ class CoordinateConverter(object):
     def __init__(this):
         pass
 
-    def ConvertCoordinates(this, imageSize, imagePoint):
+    def ConvertCoordinates(this, imagePoint):
         return imagePoint
 
 class TopDownCoordinateConverter(CoordinateConverter):
-    def __init__(this, fieldOffset, fieldSize):
+    def __init__(this, fieldOffset, fieldSize, imageSize):
         this.mFieldOffset = fieldOffset
         this.mFieldSize = fieldSize
+        this.mImageSize = imageSize
 
     @property
     def FieldOffset(this):
@@ -22,10 +23,10 @@ class TopDownCoordinateConverter(CoordinateConverter):
     def FieldSize(this):
         return this.mFieldSize
 
-    def ConvertCoordinates(this, imageSize, imagePoint):
+    def ConvertCoordinates(this, imagePoint):
         localSize = this.FieldSize
         globalOffset = this.FieldOffset
-        localPoint = Point2((imagePoint.X / imageSize.Width) * localSize.Width, (imagePoint.Y / imageSize.Height) * localSize.Height)
+        localPoint = Point2((imagePoint.X / this.mImageSize.Width) * localSize.Width, (imagePoint.Y / this.mImageSize.Height) * localSize.Height)
 
         return globalOffset + localPoint
 
@@ -34,7 +35,7 @@ class BarycentricCoordinateConverter(CoordinateConverter):
         this.mPolygonFrom = polygonFrom
         this.mPolygonTo = polygonTo
 
-    def ConvertCoordinates(this, imageSize, imagePoint):
+    def ConvertCoordinates(this, imagePoint):
         return barycentricToCartesian(cartesianToBarycentric(imagePoint, this.mPolygonFrom), this.mPolygonTo)
 
 def cartesianToBarycentric(p, Q):
