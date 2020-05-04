@@ -2,3 +2,4 @@
 __pycache__/
 Output/
 *.mp4
+Models/yolov3/yolov3.weights
